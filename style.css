@@ -1,8 +1,8 @@
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #0a0a0a, #000);
+    background: #0a0a0a;
     color: #fff;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 /* LOGIN */
@@ -15,94 +15,66 @@ body {
 
 .login-box {
     background: rgba(255,255,255,0.05);
-    padding: 50px;
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 60px rgba(240,185,11,0.15);
+    padding: 40px;
+    border-radius: 15px;
     text-align: center;
-}
-
-button {
-    background: linear-gradient(45deg,#f0b90b,#ffcc00);
-    border: none;
-    padding: 15px 40px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* LAYOUT */
-#app {
-    display: flex;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 80px;
-    background: #000;
-    border-right: 1px solid #111;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-
-.live-dot {
-    width: 10px;
-    height: 10px;
-    background: red;
-    border-radius: 50%;
-    margin-top: 10px;
-}
-
-/* MAIN */
-.main {
-    flex: 1;
-    padding: 20px;
 }
 
 /* HERO */
 #hero {
-    margin-bottom: 20px;
+    padding: 20px;
 }
 
 #main-player {
     width: 100%;
-    height: 500px;
+    max-width: 1200px;
+    margin: auto;
+    aspect-ratio: 16/9;
     background: #111;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
 }
 
-/* CHANNEL ROW */
-#channels {
-    display: flex;
-    gap: 15px;
+/* SECTION */
+.section {
+    padding: 20px;
+}
+
+/* GRID PERFECTO */
+#channels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
 }
 
 /* CARD */
 .channel-card {
-    width: 260px;
-    border-radius: 15px;
-    overflow: hidden;
     background: #111;
-    transition: 0.4s;
+    border-radius: 12px;
+    overflow: hidden;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .channel-card:hover {
-    transform: scale(1.08);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+    transform: scale(1.05);
 }
 
-/* VIDEO */
+/* VIDEO CON PROPORCIÓN */
+.video-wrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
 .video-js {
     width: 100% !important;
+    height: 100% !important;
 }
 
 /* TITLE */
 .channel-title {
-    padding: 8px;
+    padding: 10px;
     font-size: 0.9rem;
     color: #f0b90b;
 }
