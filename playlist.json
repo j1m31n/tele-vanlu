@@ -1,16 +1,16 @@
 {
   "canales": [
     {
-      "nombre": "CANAL 01 - RETRO",
-      "url": "https://archive.org/embed/classic_cartoons"
+      "nombre": "CANAL 01",
+      "url": "https://archive.org/embed/c3_v002/c1_v001.mp4"
     },
     {
-      "nombre": "CANAL 02 - SCI-FI",
-      "url": "https://archive.org/embed/SciFi_Horror"
+      "nombre": "CANAL 02",
+      "url": "https://archive.org/embed/c3_v002/c1_v002.mp4"
     },
     {
-      "nombre": "CANAL 03 - DOCS",
-      "url": "https://archive.org/embed/prelinger"
+      "nombre": "CANAL 03",
+      "url": "https://archive.org/embed/c3_v002/c2_v001.mp4"
     }
   ]
 }
