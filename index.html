@@ -1,110 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini-Vaughn Live | Sistema 24/7</title>
-
-<link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Vaughn Live | Sistema 24/7</title>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;">
 
-<div id="lock-screen">
-    <h1 style="color: #f0b90b;">SISTEMA PRIVADO DE STREAMING</h1>
-    <p>Acceso limitado a 30 usuarios simultáneos.</p>
-    <p id="user-count" style="font-size: 0.9em; color: #888;">Verificando disponibilidad...</p>
-    <br>
-    <button id="btn-entrar">ENTRAR AL SISTEMA</button>
-    <div style="margin-top: 30px; font-size: 0.8em; color: #555;">
-        Optimizado para hardware de bajos recursos (Atom N2600).
+    <div id="lock-screen">
+        <h1 style="color: #f0b90b;">SISTEMA PRIVADO DE STREAMING</h1>
+        <p>Acceso limitado a 30 usuarios simultáneos.</p>
+        <div style="margin: 20px;">
+            <span id="user-count" style="font-size: 1.2rem; color: #00ff00;">Cargando usuarios...</span>
+        </div>
+        <button id="btn-entrar" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
+        <div style="margin-top: 30px; font-size: 0.8em; color: #555;">
+            Optimizado para hardware de bajos recursos (Atom N2600).
+        </div>
     </div>
-</div>
 
-<div id="main-content" style="display:none;">
-    <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
-    <div class="grid-tv" id="grid-canales"></div>
-</div>
+    <div id="main-content" style="display:none;">
+        <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
+        <div class="grid-tv" id="grid-canales"></div>
+    </div>
 
-<!-- Firebase clásico -->
-<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js"></script>
-<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
-  authDomain: "control-de-usuarios-d081d.firebaseapp.com",
-  projectId: "control-de-usuarios-d081d",
-  storageBucket: "control-de-usuarios-d081d.firebasestorage.app",
-  messagingSenderId: "790041459039",
-  appId: "1:790041459039:web:5e7744b4957ba2903f9eea",
-  databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-const TOTAL_SLOTS = 30;
-
-document.getElementById('btn-entrar').addEventListener('click', async function() {
-    this.innerText = "CARGANDO...";
-    try {
-        const snapshot = await db.ref('playlist').get();
-        if (!snapshot.exists()) throw new Error("No se encontró la playlist");
-        const data = snapshot.val();
-
-        document.getElementById('lock-screen').style.display = 'none';
-        document.getElementById('main-content').style.display = 'block';
-
-        cargarCanales(data);
-        actualizarEspectadores();
-        setInterval(actualizarEspectadores, 30000);
-    } catch(e) {
-        console.error(e);
-        alert("Error al conectar con Firebase o cargar canales.");
-        this.innerText = "REINTENTAR ACCESO";
-    }
-});
-
-function cargarCanales(canales) {
-    const grid = document.getElementById('grid-canales');
-    grid.innerHTML = '';
-
-    Object.keys(canales).forEach((nombreCanal, i) => {
-        const videos = canales[nombreCanal];
-        const div = document.createElement('div');
-        div.className = 'player-card';
-        div.innerHTML = `
-            <div class="canal-header">● EN VIVO: ${nombreCanal.toUpperCase()}</div>
-            <img id="thumb-${i}" src="${videos[0].thumb}" class="thumb-img" />
-            <video id="video-${i}" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
-        `;
-        grid.appendChild(div);
-
-        const player = document.getElementById(`video-${i}`);
-        const thumb = document.getElementById(`thumb-${i}`);
-        let index = 0;
-
-        function cargarVideo() {
-            const video = videos[index];
-            player.src = video.url;
-            thumb.src = video.thumb;
-            player.play();
-            index = (index + 1) % videos.length;
-            player.onended = cargarVideo;
-        }
-
-        cargarVideo();
-    });
-}
-
-function actualizarEspectadores() {
-    const count = Math.floor(Math.random() * (28 - 12 + 1)) + 12;
-    const el = document.getElementById('user-count');
-    if(el) el.innerText = `${count}/${TOTAL_SLOTS}`;
-}
-</script>
-
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    
+    <script src="app.js"></script>
 </body>
 </html>
