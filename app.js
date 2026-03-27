@@ -1,97 +1,91 @@
-// CONFIGURACIÓN FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
     authDomain: "control-de-usuarios-d081d.firebaseapp.com",
     databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
     projectId: "control-de-usuarios-d081d",
-    storageBucket: "control-de-usuarios-d081d-default-rtdb.appspot.com",
+    storageBucket: "control-de-usuarios-d081d.appspot.com",
     messagingSenderId: "790041459039",
     appId: "1:790041459039:web:5e7744b4957ba2903f9eea"
 };
 
-// Inicializar
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const TOTAL_SLOTS = 30;
 let userId = 'user_' + Math.floor(Math.random() * 1000000);
 
-// 1. Monitor de Usuarios en Tiempo Real (Para la pantalla de inicio)
+// Contador de usuarios en tiempo real
 db.ref('usuarios').on('value', (snapshot) => {
     const conectados = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-    document.getElementById('user-count').innerText = `${conectados} / ${TOTAL_SLOTS} USUARIOS`;
+    const el = document.getElementById('user-count');
+    if(el) el.innerText = `${conectados} / ${TOTAL_SLOTS} USUARIOS CONECTADOS`;
 });
 
-async function iniciarSistema() {
+window.iniciarSistema = async function() {
     const boton = document.getElementById('btn-entrar');
-    boton.innerText = "VERIFICANDO...";
+    boton.innerText = "ACCEDIENDO...";
 
     try {
-        // Verificar cupo en Firebase
-        const snapshotUsers = await db.ref('usuarios').once('value');
-        const conectados = snapshotUsers.exists() ? Object.keys(snapshotUsers.val()).length : 0;
+        const snapshot = await db.ref('usuarios').once('value');
+        const conectados = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
 
         if (conectados >= TOTAL_SLOTS) {
-            alert("Sistema lleno. Por favor espera a que alguien se desconecte.");
+            alert("Sistema lleno (30/30).");
             boton.innerText = "ENTRAR AL SISTEMA";
             return;
         }
 
-        // Registrar mi conexión
         const myUserRef = db.ref('usuarios/' + userId);
-        await myUserRef.set({ conectado: true, lastSeen: Date.now() });
+        await myUserRef.set({ conectado: true, ts: Date.now() });
         myUserRef.onDisconnect().remove();
 
-        // Cargar Playlist desde GitHub
+        // Carga la playlist desde tu GitHub
         const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
         const data = await res.json();
 
-        // Cambiar Interfaz
         document.getElementById('lock-screen').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
 
-        cargarCanales(data);
+        // Pequeño retraso para asegurar que el contenedor sea visible antes de dibujar
+        setTimeout(() => cargarCanales(data), 100);
 
     } catch (e) {
-        console.error(e);
-        alert("Error de conexión. Reintenta.");
+        alert("Error al conectar. Verifica tu conexión.");
         boton.innerText = "REINTENTAR";
     }
-}
+};
 
 function cargarCanales(data) {
     const grid = document.getElementById('grid-canales');
+    if(!grid) return;
     grid.innerHTML = '';
 
-    Object.keys(data).forEach((nombreCanal, index) => {
-        const videos = data[nombreCanal];
+    Object.keys(data).forEach((nombre, i) => {
+        const videos = data[nombre];
         const div = document.createElement('div');
         div.className = 'player-card';
         div.innerHTML = `
-            <div class="canal-header">● EN VIVO: ${nombreCanal.toUpperCase()}</div>
-            <video id="video-${index}" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
+            <div class="canal-header">● EN VIVO: ${nombre.toUpperCase()}</div>
+            <video id="vjs-${i}" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" muted></video>
         `;
         grid.appendChild(div);
 
-        // Inicializar Video.js para cada canal
-        const player = videojs(`video-${index}`);
-        let currentVideoIndex = 0;
+        // Inicializamos Video.js
+        const player = videojs(`vjs-${i}`, {
+            fluid: true, // Esto lo hace responsive
+            autoplay: true
+        });
 
-        function reproducirSiguiente() {
-            if (videos[currentVideoIndex]) {
-                player.src({ type: 'video/mp4', src: videos[currentVideoIndex].url });
-                player.play().catch(() => console.log("Auto-play bloqueado, requiere clic."));
-                
+        let videoIdx = 0;
+        function playLoop() {
+            if(videos[videoIdx]) {
+                player.src({ type: 'video/mp4', src: videos[videoIdx].url });
+                player.play().catch(() => {});
                 player.one('ended', () => {
-                    currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-                    reproducirSiguiente();
+                    videoIdx = (videoIdx + 1) % videos.length;
+                    playLoop();
                 });
             }
         }
-
-        reproducirSiguiente();
+        playLoop();
     });
 }
-
-window.iniciarSistema = iniciarSistema;
