@@ -1,4 +1,3 @@
-/* DISEÑO OSCURO Y LIGERO */
 body {
     background-color: #0b0e11;
     color: #e9e9e9;
@@ -10,7 +9,6 @@ body {
     align-items: center;
 }
 
-/* Pantalla de Bloqueo */
 #lock-screen {
     text-align: center;
     margin-top: 100px;
@@ -37,7 +35,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Grilla de canales */
 .grid-tv {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -46,7 +43,7 @@ body {
     max-width: 1200px;
 }
 
-.canal-card {
+.player-card {
     background: #1e2329;
     padding: 10px;
     border-radius: 10px;
@@ -54,31 +51,7 @@ body {
 }
 
 .canal-header {
-    font-weight: bold;
-    color: #f00;
-    margin-bottom: 5px;
-}
-
-/* Video.js */
-.video-js {
-    width: 100%;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-/* Etiquetas */
-.label {
-    text-align: center;
-    margin-top: 10px;
-    font-weight: bold;
     color: #f0b90b;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Chat */
-#chat-container {
-    margin-top: 30px;
-    width: 100%;
-    max-width: 800px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
