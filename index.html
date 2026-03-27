@@ -1,72 +1,147 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Vaughn Live</title>
-
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Vaughn Live | Sistema 24/7</title>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
 </head>
+<body oncontextmenu="return false;">
 
-<body>
-
-<!-- ACCESO -->
-<div id="lock-screen">
-    <h1>🔒 ACCESO PRIVADO</h1>
-    <p>Usuarios conectados:</p>
-    <p id="user-count">Cargando...</p>
-    <button onclick="iniciarSistema()" id="btnEntrar">ENTRAR</button>
-</div>
-
-<!-- APP -->
-<div id="app" style="display:none;">
-
-<header>
-    <h2>📺 MINI VAUGHN LIVE</h2>
-</header>
-
-<div id="canales"></div>
-
-<!-- MODAL -->
-<div id="modal" class="hidden">
-    <div class="modal-content">
-
-        <div class="player-area">
-            <video id="player" controls controlsList="nodownload noremoteplayback" disablePictureInPicture></video>
+    <div id="lock-screen">
+        <h1 style="color: #f0b90b;">SISTEMA PRIVADO DE STREAMING</h1>
+        <p>Acceso limitado a 30 usuarios simultáneos.</p>
+        <p id="user-count" style="font-size: 0.9em; color: #888;">Verificando disponibilidad...</p>
+        <br>
+        <button class="btn-acceso" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
+        <div style="margin-top: 30px; font-size: 0.8em; color: #555;">
+            Optimizado para hardware de bajos recursos (Atom N2600).
         </div>
-
-        <div class="chat-area">
-            <h3>💬 Chat en vivo</h3>
-            <iframe src="https://www3.cbox.ws/box/?boxid=3536301&boxtag=abcd" width="100%" height="100%"></iframe>
-        </div>
-
     </div>
-</div>
 
-</div>
+    <div id="main-content" style="display:none;">
+        <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
 
-<script src="app.js?v=2"></script>
+        <div class="grid-tv" id="grid-canales">
+            <div class="player-card">
+                <div class="canal-header">🔴 EN VIVO: CANAL 01 - ACCIÓN</div>
+                <video id="p1" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted playsinline></video>
+            </div>
+            <div class="player-card">
+                <div class="canal-header">🔴 EN VIVO: CANAL 02 - TERROR</div>
+                <video id="p2" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted playsinline></video>
+            </div>
+            <div class="player-card">
+                <div class="canal-header">🔴 EN VIVO: CANAL 03 - ANIME</div>
+                <video id="p3" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted playsinline></video>
+            </div>
+        </div>
+
+        <div id="chat-container" style="margin-top: 20px; text-align: center;">
+            <p style="color: #f0b90b;">💬 CHAT DE LA COMUNIDAD</p>
+            <div style="background: #1e2329; height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #555; border: 1px dashed #444;">
+                El chat se activará en la Fase 4.
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 20px; background: #1e2329; border-radius: 10px; text-align: center; border: 1px solid #f0b90b55;">
+            <h4 style="margin: 0;">¿Te gusta la señal?</h4>
+            <p style="font-size: 0.9em;">Ayúdanos a mantener los servidores 24/7 con una donación.</p>
+            <p style="font-size: 0.8em; color: #f0b90b;">BTC: <code style="background: #000; padding: 2px 5px;">TU_BILLETERA_AQUÍ</code></p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
     <script type="module">
-  // Importar Firebase y Realtime Database
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  import { getDatabase, ref, onValue, set, remove } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set, remove, push } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
-  // Configuración de tu proyecto Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
-    authDomain: "control-de-usuarios-d081d.firebaseapp.com",
-    databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
-    projectId: "control-de-usuarios-d081d",
-    storageBucket: "control-de-usuarios-d081d.appspot.com",
-    messagingSenderId: "790041459039",
-    appId: "1:790041459039:web:5e7744b4957ba2903f9eea"
-  };
+        const firebaseConfig = {
+          apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
+          authDomain: "control-de-usuarios-d081d.firebaseapp.com",
+          databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
+          projectId: "control-de-usuarios-d081d",
+          storageBucket: "control-de-usuarios-d081d.appspot.com",
+          messagingSenderId: "790041459039",
+          appId: "1:790041459039:web:5e7744b4957ba2903f9eea"
+        };
 
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-  // 🔹 LISTO para usar la base de datos en tiempo real
-</script>
+        // ID único de usuario
+        let userId = null;
+
+        // Función principal al entrar
+        window.iniciarSistema = async function() {
+            const boton = document.querySelector('.btn-acceso');
+            boton.innerText = "CARGANDO...";
+
+            try {
+                const usuariosRef = ref(db, 'usuarios');
+
+                // Escuchar cambios en usuarios
+                onValue(usuariosRef, (snapshot) => {
+                    const data = snapshot.val() || {};
+                    const count = Object.keys(data).length;
+                    document.getElementById('user-count').innerText = `${count}/30`;
+                });
+
+                // Verificar límite
+                let snapshot = await new Promise(resolve => onValue(usuariosRef, resolve, {onlyOnce:true}));
+                const data = snapshot.val() || {};
+                if(Object.keys(data).length >= 30){
+                    alert("⚠️ Límite de 30 usuarios alcanzado. Intenta más tarde.");
+                    boton.innerText = "REINTENTAR ACCESO";
+                    return;
+                }
+
+                // Agregar usuario
+                userId = push(ref(db, 'usuarios')).key;
+                set(ref(db, 'usuarios/' + userId), { conectado: true });
+
+                // Eliminar usuario al cerrar
+                window.addEventListener('beforeunload', () => {
+                    if(userId) remove(ref(db, 'usuarios/' + userId));
+                });
+
+                // Mostrar TV y cargar canales
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                cargarCanales(await fetch('playlist.json').then(r => r.json()));
+
+            } catch(e) {
+                console.error(e);
+                alert("Error de conexión con el servidor de usuarios. Reintenta más tarde.");
+                boton.innerText = "REINTENTAR ACCESO";
+            }
+        }
+
+        // Función para cargar canales y miniaturas dinámicas
+        function cargarCanales(canales) {
+            const canalesIds = ['p1','p2','p3'];
+            canalesIds.forEach((id, index) => {
+                const canalKey = 'canal'+(index+1);
+                const videos = canales[canalKey];
+                const player = document.getElementById(id);
+                if(!player) return;
+                let current = 0;
+                player.poster = videos[current].thumb;
+                player.src = videos[current].url;
+                player.load();
+                player.play();
+                player.onended = () => {
+                    current = (current + 1) % videos.length;
+                    player.poster = videos[current].thumb;
+                    player.src = videos[current].url;
+                    player.load();
+                    player.play();
+                };
+            });
+        }
+    </script>
+
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 </body>
 </html>
