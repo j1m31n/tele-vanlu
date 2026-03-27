@@ -1,107 +1,96 @@
 // CONFIGURACIÓN FIREBASE
 const firebaseConfig = {
-  apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
-  authDomain: "control-de-usuarios-d081d.firebaseapp.com",
-  databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
-  projectId: "control-de-usuarios-d081d",
-  storageBucket: "control-de-usuarios-d081d.appspot.com",
-  messagingSenderId: "790041459039",
-  appId: "1:790041459039:web:5e7744b4957ba2903f9eea"
+    apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
+    authDomain: "control-de-usuarios-d081d.firebaseapp.com",
+    databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
+    projectId: "control-de-usuarios-d081d",
+    storageBucket: "control-de-usuarios-d081d-default-rtdb.appspot.com",
+    messagingSenderId: "790041459039",
+    appId: "1:790041459039:web:5e7744b4957ba2903f9eea"
 };
 
-// Inicializar Firebase
-const app = firebase.initializeApp(firebaseConfig);
+// Inicializar
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 const db = firebase.database();
-
-// Configuración
-const PLAYLIST_URL = 'https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json';
 const TOTAL_SLOTS = 30;
-let userId = null;
+let userId = 'user_' + Math.floor(Math.random() * 1000000);
+
+// 1. Monitor de Usuarios en Tiempo Real (Para la pantalla de inicio)
+db.ref('usuarios').on('value', (snapshot) => {
+    const conectados = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+    document.getElementById('user-count').innerText = `${conectados} / ${TOTAL_SLOTS} USUARIOS`;
+});
 
 async function iniciarSistema() {
     const boton = document.getElementById('btn-entrar');
-    boton.innerText = "CARGANDO...";
+    boton.innerText = "VERIFICANDO...";
 
     try {
-        const response = await fetch(PLAYLIST_URL);
-        if (!response.ok) throw new Error("No se pudo obtener la lista");
-        const data = await response.json();
+        // Verificar cupo en Firebase
+        const snapshotUsers = await db.ref('usuarios').once('value');
+        const conectados = snapshotUsers.exists() ? Object.keys(snapshotUsers.val()).length : 0;
 
-        // Registrar usuario
-        userId = 'user_' + Math.floor(Math.random() * 1000000);
-        const userRef = db.ref('usuarios/' + userId);
-
-        const snapshot = await db.ref('usuarios').once('value');
-        const usuariosActuales = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-
-        if (usuariosActuales >= TOTAL_SLOTS) {
-            alert("Sistema completo (30 usuarios conectados). Intenta más tarde.");
-            boton.innerText = "REINTENTAR";
+        if (conectados >= TOTAL_SLOTS) {
+            alert("Sistema lleno. Por favor espera a que alguien se desconecte.");
+            boton.innerText = "ENTRAR AL SISTEMA";
             return;
         }
 
-        await userRef.set({ conectado: true, timestamp: Date.now() });
+        // Registrar mi conexión
+        const myUserRef = db.ref('usuarios/' + userId);
+        await myUserRef.set({ conectado: true, lastSeen: Date.now() });
+        myUserRef.onDisconnect().remove();
 
+        // Cargar Playlist desde GitHub
+        const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
+        const data = await res.json();
+
+        // Cambiar Interfaz
         document.getElementById('lock-screen').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
 
         cargarCanales(data);
-        actualizarEspectadoresRealtime();
-
-        window.addEventListener('beforeunload', () => {
-            userRef.remove();
-        });
 
     } catch (e) {
         console.error(e);
-        alert("Error al conectar con Firebase o cargar canales.");
+        alert("Error de conexión. Reintenta.");
         boton.innerText = "REINTENTAR";
     }
 }
 
-function cargarCanales(canales) {
+function cargarCanales(data) {
     const grid = document.getElementById('grid-canales');
     grid.innerHTML = '';
 
-    let canalKeys = Object.keys(canales);
-    canalKeys.forEach((key, index) => {
-        const listaVideos = canales[key].map(v => atob(v));
-
+    Object.keys(data).forEach((nombreCanal, index) => {
+        const videos = data[nombreCanal];
         const div = document.createElement('div');
-        div.className = 'canal-card';
+        div.className = 'player-card';
         div.innerHTML = `
-            <div class="canal-header">● EN VIVO: CANAL ${index + 1}</div>
-            <video id="video_${index}" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted autoplay></video>
-            <div class="label">CANAL ${index + 1}</div>
+            <div class="canal-header">● EN VIVO: ${nombreCanal.toUpperCase()}</div>
+            <video id="video-${index}" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
         `;
         grid.appendChild(div);
 
-        let current = 0;
-        const videoEl = div.querySelector('video');
+        // Inicializar Video.js para cada canal
+        const player = videojs(`video-${index}`);
+        let currentVideoIndex = 0;
 
-        function playNext() {
-            videoEl.src = listaVideos[current];
-            videoEl.play().catch(()=>{});
+        function reproducirSiguiente() {
+            if (videos[currentVideoIndex]) {
+                player.src({ type: 'video/mp4', src: videos[currentVideoIndex].url });
+                player.play().catch(() => console.log("Auto-play bloqueado, requiere clic."));
+                
+                player.one('ended', () => {
+                    currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+                    reproducirSiguiente();
+                });
+            }
         }
 
-        videoEl.addEventListener('ended', () => {
-            current = (current + 1) % listaVideos.length;
-            playNext();
-        });
-
-        playNext();
-    });
-}
-
-function actualizarEspectadores(snapshot) {
-    const count = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-    const el = document.getElementById('user-count');
-    if(el) el.innerText = `${count}/${TOTAL_SLOTS}`;
-}
-
-function actualizarEspectadoresRealtime() {
-    db.ref('usuarios').on('value', snapshot => {
-        actualizarEspectadores(snapshot);
+        reproducirSiguiente();
     });
 }
 
