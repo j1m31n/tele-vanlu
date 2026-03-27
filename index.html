@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini-Vaughn Live Premium</title>
-
-<link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TELE-VANLU LIVE | Premium Streaming</title>
+    <link href="https://vjs.zencdn.net" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
 <div id="lock-screen">
     <div class="login-box">
-        <h1>📺 TELE-VANLU LIVE</h1>
-        <p id="user-count">Cargando usuarios...</p>
-        <button onclick="iniciarSistema()">ENTRAR</button>
+        <div class="logo-animation">📺</div>
+        <h1>TELE-VANLU <span class="gold">LIVE</span></h1>
+        <p id="user-count">Conectando con el servidor...</p>
+        <button onclick="iniciarSistema()">ACCESO PREMIUM</button>
     </div>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none;">
+    <nav class="navbar">
+        <div class="logo">TELE-VANLU</div>
+        <div id="live-users-header">● 28 USUARIOS ONLINE</div>
+    </nav>
 
-    <!-- MAIN PLAYER -->
-    <div id="hero">
-        <video id="main-player" class="video-js vjs-big-play-centered" controls autoplay muted></video>
+    <div class="main-container">
+        <!-- PLAYER & CHAT AREA -->
+        <div class="player-section">
+            <div id="player-wrapper" class="fade-in">
+                <video id="main-player" class="video-js vjs-big-play-centered" controls autoplay muted></video>
+                <div class="channel-info-overlay">
+                    <span id="current-channel-name">Selecciona un canal</span>
+                </div>
+            </div>
+            
+            <!-- CHAT INTEGRADO -->
+            <div class="chat-container">
+                <div class="chat-header">CHAT EN VIVO</div>
+                <div id="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input-field" placeholder="Escribe algo...">
+                    <button onclick="enviarMensaje()">⚡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID TIPO NETFLIX -->
+        <div class="content-section">
+            <h2 class="section-title">Canales Destacados</h2>
+            <div id="channels-grid" class="netflix-grid"></div>
+        </div>
     </div>
-
-    <!-- GRID DE CANALES -->
-    <div class="section">
-        <h2>🔴 Canales en vivo</h2>
-        <div id="channels-grid"></div>
-    </div>
-
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<script src="https://vjs.zencdn.net"></script>
 <script src="app.js"></script>
-
 </body>
 </html>
