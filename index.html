@@ -27,22 +27,7 @@
     <div id="main-content" style="display:none;">
         <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
         
-        <div class="grid-tv">
-            <div class="player-card">
-                <video id="p1" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
-                <div class="label">🔴 CANAL 01 - ACCIÓN</div>
-            </div>
-
-            <div class="player-card">
-                <video id="p2" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
-                <div class="label">🔴 CANAL 02 - TERROR</div>
-            </div>
-
-            <div class="player-card">
-                <video id="p3" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
-                <div class="label">🔴 CANAL 03 - ANIME</div>
-            </div>
-        </div>
+        <div id="grid-canales" class="grid-tv"></div>
 
         <div id="chat-container" style="margin-top: 20px; text-align: center;">
             <p style="color: #f0b90b;">💬 CHAT DE LA COMUNIDAD</p>
@@ -58,9 +43,14 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <script type="module" src="app.js"></script>
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js"></script>
 
+    <!-- VIDEO.JS -->
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
+    <!-- APP JS -->
+    <script src="app.js"></script>
 </body>
 </html>
