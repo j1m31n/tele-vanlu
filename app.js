@@ -1,117 +1,88 @@
 const firebaseConfig = {
     apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
-    authDomain: "control-de-usuarios-d081d.firebaseapp.com",
-    databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
+    databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com"
 };
 
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const TOTAL_SLOTS = 30;
-let userId = 'user_' + Math.floor(Math.random() * 1000000);
+let mainPlayer;
 
-// CONTADOR
-db.ref('usuarios').on('value', (snapshot) => {
-    const conectados = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-    document.getElementById('user-count').innerText =
-        `${conectados} / ${TOTAL_SLOTS} USUARIOS`;
-});
+// LOGIN + CONTROL USUARIOS
+window.iniciarSistema = async function(){
 
-// ENTRAR
-window.iniciarSistema = async function() {
+    const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
+    const data = await res.json();
 
-    const boton = document.getElementById('btn-entrar');
-    boton.innerText = "ACCEDIENDO...";
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
 
-    try {
-
-        const snapshot = await db.ref('usuarios').once('value');
-        const conectados = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-
-        if (conectados >= TOTAL_SLOTS) {
-            alert("Sistema lleno");
-            boton.innerText = "ENTRAR";
-            return;
-        }
-
-        const ref = db.ref('usuarios/' + userId);
-        await ref.set(true);
-        ref.onDisconnect().remove();
-
-        document.getElementById('lock-screen').style.display = 'none';
-        document.getElementById('main-content').style.display = 'block';
-
-        document.getElementById('loader').style.display = 'block';
-
-        const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
-        const data = await res.json();
-
-        setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            cargarCanales(data);
-        }, 500);
-
-    } catch (e) {
-        alert("Error al conectar");
-        boton.innerText = "REINTENTAR";
-    }
+    initUI(data);
 };
 
-// CANALES
-function cargarCanales(data) {
+// INIT UI
+function initUI(data){
 
-    const grid = document.getElementById('grid-canales');
-    grid.innerHTML = '';
+    const mainContainer = document.getElementById('main-player');
+    const channels = document.getElementById('channels');
 
-    Object.keys(data).forEach((nombre, i) => {
+    let first = true;
 
-        const videos = data[nombre];
+    Object.keys(data).forEach((name, i)=>{
 
-        const div = document.createElement('div');
-        div.className = 'player-card';
+        const videos = data[name];
 
-        div.innerHTML = `
-            <div class="canal-header">${nombre}</div>
-            <div class="video-container">
-                <div id="thumb-${i}" class="thumb-overlay"></div>
-                <video id="vjs-${i}" class="video-js" muted></video>
-            </div>
-        `;
-
-        grid.appendChild(div);
-
-        const player = videojs(`vjs-${i}`, {
-            fluid: true,
-            autoplay: true,
-            controls: true
-        });
-
-        let index = 0;
-        const thumb = document.getElementById(`thumb-${i}`);
-
-        function loop() {
-
-            const vid = videos[index];
-
-            if (vid.thumb) {
-                thumb.style.backgroundImage = `url(${vid.thumb})`;
-                thumb.classList.remove('hidden');
-            }
-
-            player.src({ type: 'video/mp4', src: vid.url });
-
-            player.play().catch(()=>{});
-
-            player.one('playing', () => {
-                thumb.classList.add('hidden');
-            });
-
-            player.one('ended', () => {
-                index = (index + 1) % videos.length;
-                loop();
-            });
+        // MAIN PLAYER
+        if(first){
+            mainContainer.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
+            mainPlayer = videojs("main-video");
+            playLoop(mainPlayer, videos);
+            first = false;
         }
 
-        loop();
+        // CARD
+        const card = document.createElement('div');
+        card.className = 'channel-card';
+
+        card.innerHTML = `
+            <video id="preview-${i}" class="video-js" muted></video>
+            <div class="channel-title">${name}</div>
+        `;
+
+        channels.appendChild(card);
+
+        const preview = videojs(`preview-${i}`, {
+            autoplay: true,
+            muted: true,
+            controls: false
+        });
+
+        playLoop(preview, videos);
+
+        card.onclick = ()=>{
+            mainPlayer.dispose();
+            mainContainer.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
+            mainPlayer = videojs("main-video");
+            playLoop(mainPlayer, videos);
+        };
+
     });
+}
+
+// LOOP
+function playLoop(player, videos){
+
+    let i = 0;
+
+    function next(){
+        player.src({type:'video/mp4', src: videos[i].url});
+        player.play().catch(()=>{});
+
+        player.one('ended', ()=>{
+            i = (i+1)%videos.length;
+            next();
+        });
+    }
+
+    next();
 }
