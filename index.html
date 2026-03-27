@@ -46,5 +46,27 @@
 </div>
 
 <script src="app.js?v=2"></script>
+    <script type="module">
+  // Importar Firebase y Realtime Database
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set, remove } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+  // Configuración de tu proyecto Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
+    authDomain: "control-de-usuarios-d081d.firebaseapp.com",
+    databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
+    projectId: "control-de-usuarios-d081d",
+    storageBucket: "control-de-usuarios-d081d.appspot.com",
+    messagingSenderId: "790041459039",
+    appId: "1:790041459039:web:5e7744b4957ba2903f9eea"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // 🔹 LISTO para usar la base de datos en tiempo real
+</script>
 </body>
 </html>
