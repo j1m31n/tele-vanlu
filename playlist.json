@@ -1,14 +1,13 @@
 {
-  "canal1": [
-    {"url":"c1_v1.mp4","thumb":"c1_t1.jpg"},
-    {"url":"c1_v2.mp4","thumb":"c1_t2.jpg"}
+  "Canal 1": [
+    { "url": "https://archive.org/download/c3_v002/c1_v001.mp4", "thumb": "" },
+    { "url": "https://archive.org/download/c3_v002/c1_v002.mp4", "thumb": "" }
   ],
-  "canal2": [
-    {"url":"c2_v1.mp4","thumb":"c2_t1.jpg"},
-    {"url":"c2_v2.mp4","thumb":"c2_t2.jpg"}
+  "Canal 2": [
+    { "url": "https://archive.org/download/c3_v002/c2_v001.mp4", "thumb": "" }
   ],
-  "canal3": [
-    {"url":"c3_v1.mp4","thumb":"c3_t1.jpg"},
-    {"url":"c3_v2.mp4","thumb":"c3_t2.jpg"}
+  "Canal 3": [
+    { "url": "https://archive.org/download/c3_v002/c3_v001.mp4", "thumb": "" },
+    { "url": "https://archive.org/download/c3_v002/c3_v002.mp4", "thumb": "" }
   ]
 }
