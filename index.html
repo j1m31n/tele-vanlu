@@ -25,27 +25,12 @@
         <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
         
         <div class="grid-tv" id="grid-canales"></div>
-
-        <div id="chat-container" style="margin-top: 20px; text-align: center;">
-            <p style="color: #f0b90b;">💬 CHAT DE LA COMUNIDAD</p>
-            <div style="background: #1e2329; height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #555; border: 1px dashed #444;">
-                El chat se activará en la Fase 4.
-            </div>
-        </div>
-
-        <div style="margin-top: 40px; padding: 20px; background: #1e2329; border-radius: 10px; text-align: center; border: 1px solid #f0b90b55;">
-            <h4 style="margin: 0;">¿Te gusta la señal?</h4>
-            <p style="font-size: 0.9em;">Ayúdanos a mantener los servidores 24/7 con una donación.</p>
-            <p style="font-size: 0.8em; color: #f0b90b;">BTC: <code style="background: #000; padding: 2px 5px;">TU_BILLETERA_AQUÍ</code></p>
-        </div>
     </div>
 
     <script type="module">
-        // Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
-        // Firebase config
         const firebaseConfig = {
           apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
           authDomain: "control-de-usuarios-d081d.firebaseapp.com",
@@ -66,7 +51,6 @@
             boton.innerText = "CARGANDO...";
             
             try {
-                // Traemos la playlist de Firebase
                 const snapshot = await get(ref(db, 'playlist'));
                 if (!snapshot.exists()) throw new Error("No se encontró la playlist");
                 const data = snapshot.val();
@@ -76,7 +60,6 @@
 
                 cargarCanales(data);
                 actualizarEspectadores();
-
                 setInterval(actualizarEspectadores, 30000);
             } catch (e) {
                 console.error(e);
@@ -90,23 +73,27 @@
             grid.innerHTML = '';
 
             Object.keys(canales).forEach((nombreCanal, i) => {
-                const videoLinks = canales[nombreCanal]; // array de base64 o links directos
+                const videos = canales[nombreCanal];
                 const div = document.createElement('div');
                 div.className = 'player-card';
                 div.innerHTML = `
                     <div class="canal-header">● EN VIVO: ${nombreCanal.toUpperCase()}</div>
+                    <img id="thumb-${i}" src="${videos[0].thumb}" class="thumb-img" />
                     <video id="video-${i}" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
                 `;
                 grid.appendChild(div);
 
                 const player = document.getElementById(`video-${i}`);
+                const thumb = document.getElementById(`thumb-${i}`);
                 let index = 0;
 
                 function cargarVideo() {
-                    player.src = atob(videoLinks[index]); // si es link directo, usa player.src = videoLinks[index];
+                    const video = videos[index];
+                    player.src = video.url;
+                    thumb.src = video.thumb;
                     player.play();
-                    index = (index + 1) % videoLinks.length;
-                    player.onended = cargarVideo; // cambia automáticamente al siguiente video
+                    index = (index + 1) % videos.length;
+                    player.onended = cargarVideo;
                 }
 
                 cargarVideo();
@@ -118,10 +105,8 @@
             const el = document.getElementById('user-count');
             if(el) el.innerText = `${count}/${TOTAL_SLOTS}`;
         }
-
     </script>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <script src="style.css"></script>
 </body>
 </html>
