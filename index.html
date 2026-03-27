@@ -4,37 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini-Vaughn Live | Sistema 24/7</title>
+    
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;">
 
+    <!-- PANTALLA DE BLOQUEO -->
     <div id="lock-screen">
         <h1 style="color: #f0b90b;">SISTEMA PRIVADO DE STREAMING</h1>
         <p>Acceso limitado a 30 usuarios simultáneos.</p>
         <p id="user-count" style="font-size: 0.9em; color: #888;">Verificando disponibilidad...</p>
         <br>
-        <button class="btn-acceso" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
+        <button id="btn-entrar" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
+        
         <div style="margin-top: 30px; font-size: 0.8em; color: #555;">
             Optimizado para hardware de bajos recursos (Atom N2600).
         </div>
     </div>
 
+    <!-- PANTALLA PRINCIPAL -->
     <div id="main-content" style="display:none;">
         <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
+        
+        <div class="grid-tv">
+            <div class="player-card">
+                <video id="p1" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
+                <div class="label">🔴 CANAL 01 - ACCIÓN</div>
+            </div>
 
-        <div class="grid-tv" id="grid-canales">
             <div class="player-card">
-                <div class="canal-header">🔴 EN VIVO: CANAL 01 - ACCIÓN</div>
-                <video id="p1" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted playsinline></video>
+                <video id="p2" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
+                <div class="label">🔴 CANAL 02 - TERROR</div>
             </div>
+
             <div class="player-card">
-                <div class="canal-header">🔴 EN VIVO: CANAL 02 - TERROR</div>
-                <video id="p2" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted playsinline></video>
-            </div>
-            <div class="player-card">
-                <div class="canal-header">🔴 EN VIVO: CANAL 03 - ANIME</div>
-                <video id="p3" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted playsinline></video>
+                <video id="p3" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
+                <div class="label">🔴 CANAL 03 - ANIME</div>
             </div>
         </div>
 
@@ -52,96 +58,9 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set, remove, push } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
-          authDomain: "control-de-usuarios-d081d.firebaseapp.com",
-          databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
-          projectId: "control-de-usuarios-d081d",
-          storageBucket: "control-de-usuarios-d081d.appspot.com",
-          messagingSenderId: "790041459039",
-          appId: "1:790041459039:web:5e7744b4957ba2903f9eea"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // ID único de usuario
-        let userId = null;
-
-        // Función principal al entrar
-        window.iniciarSistema = async function() {
-            const boton = document.querySelector('.btn-acceso');
-            boton.innerText = "CARGANDO...";
-
-            try {
-                const usuariosRef = ref(db, 'usuarios');
-
-                // Escuchar cambios en usuarios
-                onValue(usuariosRef, (snapshot) => {
-                    const data = snapshot.val() || {};
-                    const count = Object.keys(data).length;
-                    document.getElementById('user-count').innerText = `${count}/30`;
-                });
-
-                // Verificar límite
-                let snapshot = await new Promise(resolve => onValue(usuariosRef, resolve, {onlyOnce:true}));
-                const data = snapshot.val() || {};
-                if(Object.keys(data).length >= 30){
-                    alert("⚠️ Límite de 30 usuarios alcanzado. Intenta más tarde.");
-                    boton.innerText = "REINTENTAR ACCESO";
-                    return;
-                }
-
-                // Agregar usuario
-                userId = push(ref(db, 'usuarios')).key;
-                set(ref(db, 'usuarios/' + userId), { conectado: true });
-
-                // Eliminar usuario al cerrar
-                window.addEventListener('beforeunload', () => {
-                    if(userId) remove(ref(db, 'usuarios/' + userId));
-                });
-
-                // Mostrar TV y cargar canales
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                cargarCanales(await fetch('playlist.json').then(r => r.json()));
-
-            } catch(e) {
-                console.error(e);
-                alert("Error de conexión con el servidor de usuarios. Reintenta más tarde.");
-                boton.innerText = "REINTENTAR ACCESO";
-            }
-        }
-
-        // Función para cargar canales y miniaturas dinámicas
-        function cargarCanales(canales) {
-            const canalesIds = ['p1','p2','p3'];
-            canalesIds.forEach((id, index) => {
-                const canalKey = 'canal'+(index+1);
-                const videos = canales[canalKey];
-                const player = document.getElementById(id);
-                if(!player) return;
-                let current = 0;
-                player.poster = videos[current].thumb;
-                player.src = videos[current].url;
-                player.load();
-                player.play();
-                player.onended = () => {
-                    current = (current + 1) % videos.length;
-                    player.poster = videos[current].thumb;
-                    player.src = videos[current].url;
-                    player.load();
-                    player.play();
-                };
-            });
-        }
-    </script>
-
+    <!-- SCRIPTS -->
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <script type="module" src="app.js"></script>
+
 </body>
 </html>
