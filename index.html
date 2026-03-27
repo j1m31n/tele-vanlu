@@ -3,60 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini-Vaughn Live | Sistema 24/7</title>
-    
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <title>SISTEMA PRIVADO DE STREAMING</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body oncontextmenu="return false;">
-
-    <div id="lock-screen">
-        <h1 style="color: #f0b90b;">SISTEMA PRIVADO DE STREAMING</h1>
+<body>
+    <div id="acceso" class="login-container">
+        <h1>SISTEMA PRIVADO DE STREAMING</h1>
         <p>Acceso limitado a 30 usuarios simultáneos.</p>
-        <p id="user-count" style="font-size: 0.9em; color: #888;">Verificando disponibilidad...</p>
-        <br>
-        <button id="btn-entrar" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
-        
-        <div style="margin-top: 30px; font-size: 0.8em; color: #555;">
-            Optimizado para hardware de bajos recursos (Atom N2600).
+        <div class="user-info">
+            <span id="user-count">... / 30</span>
         </div>
+        <button class="btn-acceso" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
+        <p class="footer-note">Optimizado para hardware de bajos recursos (Atom N2600).</p>
     </div>
 
-    <div id="main-content" style="display:none;">
-        <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
-        
-        <div class="grid-tv">
-            <div class="player-card">
-                <video id="p1" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
-                <div class="label">🔴 CANAL 01 - PELÍCULAS</div>
-            </div>
-
-            <div class="player-card">
-                <video id="p2" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
-                <div class="label">🔴 CANAL 02 - SERIES</div>
-            </div>
-
-            <div class="player-card">
-                <video id="p3" class="video-js vjs-16-9 vjs-default-skin" controls preload="auto" muted></video>
-                <div class="label">🔴 CANAL 03 - VARIEDADES</div>
-            </div>
-        </div>
-
-        <div id="chat-container" style="margin-top: 20px; text-align: center;">
-            <p style="color: #f0b90b;">💬 CHAT DE LA COMUNIDAD</p>
-            <div style="background: #1e2329; height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #555; border: 1px dashed #444;">
-                El chat se activará en la Fase 4.
-            </div>
-        </div>
-
-        <div style="margin-top: 40px; padding: 20px; background: #1e2329; border-radius: 10px; text-align: center; border: 1px solid #f0b90b55;">
-            <h4 style="margin: 0;">¿Te gusta la señal?</h4>
-            <p style="font-size: 0.9em;">Ayúdanos a mantener los servidores 24/7 con una donación.</p>
-            <p style="font-size: 0.8em; color: #f0b90b;">BTC: <code style="background: #000; padding: 2px 5px;">TU_BILLETERA_AQUÍ</code></p>
-        </div>
+    <div id="tv-container" style="display: none;">
+        <header>
+            <h2>TELE-VANLU LIVE</h2>
+            <div class="slots">USUARIOS: <span id="user-count-tv">12/30</span></div>
+        </header>
+        <div id="grid-canales"></div>
     </div>
 
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
