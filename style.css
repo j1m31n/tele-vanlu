@@ -1,28 +1,100 @@
-/* Estilo para TU reproductor */
-.mi-reproductor {
-    width: 100%;
-    height: auto;
-    background: #000;
-    border: 1px solid #444;
-    display: block;
-}
-
-.video-wrapper {
-    background: #000;
-    padding: 0;
+body {
     margin: 0;
+    background: #0a0a0a;
+    color: #fff;
+    font-family: Arial, sans-serif;
 }
 
-.controles-propios {
-    padding: 10px;
-    background: #222;
+/* LOCK */
+#lock-screen {
+    text-align: center;
+    margin-top: 120px;
 }
 
-.controles-propios button {
+button {
+    padding: 12px 25px;
     background: #ffcc00;
     border: none;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 0.6rem;
-    padding: 5px 10px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    padding: 15px;
+    background: #111;
+    border-bottom: 1px solid #222;
+}
+
+/* CANALES */
+#canales {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px;
+}
+
+.canal {
+    width: 320px;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.canal:hover {
+    transform: scale(1.05);
+}
+
+/* VIDEO PREVIEW */
+.preview {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.canal-info {
+    padding: 10px;
+    text-align: center;
+}
+
+/* MODAL */
+#modal {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.9);
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-content {
+    display: flex;
+    height: 100%;
+}
+
+/* PLAYER GRANDE */
+.player-area {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#player {
+    width: 90%;
+    max-height: 80%;
+}
+
+/* CHAT */
+.chat-area {
+    flex: 1;
+    background: #111;
+    padding: 10px;
 }
