@@ -6,14 +6,13 @@ body {
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* LOGIN */
+/* LOCK SCREEN */
 #lock-screen {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .login-box {
     background: rgba(255,255,255,0.05);
     padding: 50px;
@@ -21,7 +20,6 @@ body {
     backdrop-filter: blur(20px);
     text-align: center;
 }
-
 .login-box button {
     background-color: #f0b90b;
     border: none;
@@ -32,66 +30,64 @@ body {
     cursor: pointer;
     transition: 0.3s;
 }
-
 .login-box button:hover {
     transform: scale(1.05);
 }
 
 /* HERO */
 #hero {
-    padding: 20px;
-}
-
-#main-player {
     max-width: 1200px;
-    margin: auto;
-    aspect-ratio: 16/9;
+    margin: 20px auto;
     border-radius: 20px;
     overflow: hidden;
-    background: #111;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+}
+#main-player {
+    width: 100% !important;
+    aspect-ratio: 16/9;
 }
 
-/* GRID */
+/* GRID DE CANALES */
 #channels-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+    gap: 20px;
     padding: 20px;
 }
 
-/* CARD */
+/* CHANNEL CARD */
 .channel-card {
     position: relative;
     border-radius: 15px;
     overflow: hidden;
-    background: #111;
     cursor: pointer;
     transition: 0.4s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.7);
 }
-
 .channel-card:hover {
-    transform: scale(1.07) translateY(-5px);
-    box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
 }
 
-/* VIDEO */
-.video-wrapper {
-    aspect-ratio: 16/9;
-}
-
-.video-js {
+/* VIDEO MINIATURA */
+.channel-card video {
     width: 100% !important;
-    height: 100% !important;
+    aspect-ratio: 16/9;
     border-radius: 10px;
 }
 
-/* OVERLAY GRADIENT */
+/* OVERLAY */
 .overlay {
     position: absolute;
     bottom: 0;
     width: 100%;
     padding: 10px;
     background: linear-gradient(transparent, rgba(0,0,0,0.8));
+}
+.channel-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #f0b90b;
 }
 
 /* LIVE BADGE */
@@ -105,20 +101,7 @@ body {
     border-radius: 6px;
 }
 
-/* TITLE */
-.channel-title {
-    font-size: 0.9rem;
-    color: #f0b90b;
-}
-
-/* SKELETON */
-.skeleton {
-    height: 150px;
-    background: linear-gradient(90deg, #111, #222, #111);
-    animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-    0% {background-position: -200px;}
-    100% {background-position: 200px;}
+/* ANIMACIÓN FADE */
+.fade {
+    transition: opacity 0.4s ease-in-out;
 }
