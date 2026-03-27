@@ -10,44 +10,41 @@
 
 <body>
 
-<!-- PANTALLA DE ACCESO -->
+<!-- ACCESO -->
 <div id="lock-screen">
     <h1>🔒 ACCESO PRIVADO</h1>
-    <p>Usuarios activos:</p>
+    <p>Usuarios conectados:</p>
     <p id="user-count">Cargando...</p>
-    <button onclick="iniciarSistema()">ENTRAR</button>
+    <button onclick="iniciarSistema()" id="btnEntrar">ENTRAR</button>
 </div>
 
 <!-- APP -->
 <div id="app" style="display:none;">
 
-    <header>
-        <h2>📺 MINI VAUGHN LIVE</h2>
-    </header>
+<header>
+    <h2>📺 MINI VAUGHN LIVE</h2>
+</header>
 
-    <!-- CANALES -->
-    <div id="canales"></div>
+<div id="canales"></div>
 
-    <!-- MODAL -->
-    <div id="modal" class="hidden">
-        <div class="modal-content">
+<!-- MODAL -->
+<div id="modal" class="hidden">
+    <div class="modal-content">
 
-            <div class="player-area">
-                <video id="player" controls autoplay></video>
-            </div>
-
-            <div class="chat-area">
-                <h3>💬 Chat</h3>
-                <iframe src="https://www3.cbox.ws/box/?boxid=3536301&boxtag=abcd" width="100%" height="100%"></iframe>
-            </div>
-
+        <div class="player-area">
+            <video id="player" controls controlsList="nodownload noremoteplayback" disablePictureInPicture></video>
         </div>
+
+        <div class="chat-area">
+            <h3>💬 Chat en vivo</h3>
+            <iframe src="https://www3.cbox.ws/box/?boxid=3536301&boxtag=abcd" width="100%" height="100%"></iframe>
+        </div>
+
     </div>
+</div>
 
 </div>
 
-<!-- IMPORTANTE: versión para evitar cache -->
-<script src="app.js?v=1"></script>
-
+<script src="app.js?v=2"></script>
 </body>
 </html>
