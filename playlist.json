@@ -2,15 +2,15 @@
   "canales": [
     {
       "nombre": "CANAL 01",
-      "url": "https://archive.org/embed/c3_v002/c1_v001.mp4"
+      "url": "https://archive.org/download/c3_v002/c1_v001.mp4"
     },
     {
       "nombre": "CANAL 02",
-      "url": "https://archive.org/embed/c3_v002/c1_v002.mp4"
+      "url": "https://archive.org/download/c3_v002/c1_v002.mp4"
     },
     {
       "nombre": "CANAL 03",
-      "url": "https://archive.org/embed/c3_v002/c2_v001.mp4"
+      "url": "https://archive.org/download/c3_v002/c2_v001.mp4"
     }
   ]
 }
