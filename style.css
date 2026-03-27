@@ -1,8 +1,111 @@
-body { background: #0a0a0a; color: white; font-family: 'Courier New', monospace; text-align: center; margin: 0; }
-.login-container { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-.btn-acceso { background: #ffcc00; color: black; border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; border-radius: 5px; font-size: 1.2rem; }
-.btn-acceso:hover { background: #e6b800; }
-#tv-container { padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-.canal-card { background: #1a1a1a; border: 2px solid #333; padding: 10px; border-radius: 8px; }
-.video-wrapper iframe { width: 100%; height: 200px; border: none; }
-.canal-header { color: #00ff00; margin-bottom: 10px; font-size: 0.9rem; }
+/* Recuperamos la fuente Pixel Original */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background: #0d0d0d; /* Fondo casi negro, muy pro */
+    color: #e0e0e0;
+    font-family: 'Press Start 2P', cursive; /* FUENTE PIXEL */
+    text-align: center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Pantalla de Acceso --- */
+#acceso {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h1 { font-size: 1.2rem; color: #ffcc00; text-transform: uppercase; }
+p { font-size: 0.7rem; color: #aaa; }
+
+.btn-acceso {
+    background: #ffcc00;
+    color: black;
+    border: 3px solid black;
+    padding: 15px 30px;
+    font-family: 'Press Start 2P', cursive;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.btn-acceso:hover { background: #e6b800; transform: scale(1.05); }
+
+/* --- Contenedor de TV (ARREGLADO Y CENTRADO) --- */
+#tv-container {
+    display: none; /* Se oculta al inicio */
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+header h2 { color: #ffcc00; font-size: 1rem; margin-bottom: 20px; }
+.slots { font-size: 0.8rem; color: #aaa; margin-bottom: 20px; }
+
+/* Grid de Canales (CENTRADO Y SEPARADO) */
+#grid-canales {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Pantallas más anchas */
+    gap: 25px; /* Espacio entre pantallas */
+    justify-content: center; /* Centrar el grid */
+    padding: 20px;
+}
+
+.canal-card {
+    background: #1a1a1a;
+    border: 3px solid #333; /* Marco más grueso */
+    padding: 10px;
+    border-radius: 10px;
+    transition: border-color 0.3s;
+}
+
+.canal-card:hover { border-color: #ffcc00; } /* Resaltar al pasar el mouse */
+
+/* El Wrapper para el Video */
+.video-wrapper {
+    width: 100%;
+    position: relative;
+    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Indicador EN VIVO (ROJO E INTERMITENTE) */
+.canal-header {
+    color: #ff3333; /* Rojo */
+    margin-bottom: 10px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.canal-header span {
+    animation: blink 1.5s infinite; /* Animación de parpadeo */
+}
+
+@keyframes blink { 
+    0% { opacity: 1; } 
+    50% { opacity: 0; } 
+    100% { opacity: 1; } 
+}
