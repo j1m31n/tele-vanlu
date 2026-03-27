@@ -1,5 +1,5 @@
 const firebaseConfig = {
-    apiKey: "AIzaSy...",
+    apiKey: "AIzaSyCypKb1g8v7FXA56BfRl7y-jM4iIq-ioqI",
     authDomain: "control-de-usuarios-d081d.firebaseapp.com",
     databaseURL: "https://control-de-usuarios-d081d-default-rtdb.firebaseio.com",
 };
@@ -10,103 +10,108 @@ const db = firebase.database();
 const TOTAL_SLOTS = 30;
 let userId = 'user_' + Math.floor(Math.random() * 1000000);
 
-// USERS
-db.ref('usuarios').on('value', snap => {
-    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-    document.getElementById('user-count').innerText = `${count}/${TOTAL_SLOTS}`;
+// CONTADOR
+db.ref('usuarios').on('value', (snapshot) => {
+    const conectados = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+    document.getElementById('user-count').innerText =
+        `${conectados} / ${TOTAL_SLOTS} USUARIOS`;
 });
 
-// ENTER
-window.iniciarSistema = async function () {
+// ENTRAR
+window.iniciarSistema = async function() {
 
-    const btn = document.getElementById('btn-entrar');
-    btn.innerText = "CARGANDO...";
+    const boton = document.getElementById('btn-entrar');
+    boton.innerText = "ACCEDIENDO...";
 
-    const snap = await db.ref('usuarios').once('value');
-    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+    try {
 
-    if(count >= TOTAL_SLOTS){
-        alert("Servidor lleno");
-        btn.innerText = "ENTRAR";
-        return;
+        const snapshot = await db.ref('usuarios').once('value');
+        const conectados = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+
+        if (conectados >= TOTAL_SLOTS) {
+            alert("Sistema lleno");
+            boton.innerText = "ENTRAR";
+            return;
+        }
+
+        const ref = db.ref('usuarios/' + userId);
+        await ref.set(true);
+        ref.onDisconnect().remove();
+
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+
+        document.getElementById('loader').style.display = 'block';
+
+        const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
+        const data = await res.json();
+
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            cargarCanales(data);
+        }, 500);
+
+    } catch (e) {
+        alert("Error al conectar");
+        boton.innerText = "REINTENTAR";
     }
-
-    const ref = db.ref('usuarios/' + userId);
-    await ref.set(true);
-    ref.onDisconnect().remove();
-
-    document.getElementById('lock-screen').style.display = "none";
-    document.getElementById('main-content').style.display = "block";
-
-    const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
-    const data = await res.json();
-
-    cargarCanales(data);
 };
 
-// LOAD CHANNELS
-function cargarCanales(data){
+// CANALES
+function cargarCanales(data) {
 
     const grid = document.getElementById('grid-canales');
-    const loader = document.getElementById('loader');
+    grid.innerHTML = '';
 
-    loader.style.display = "block";
+    Object.keys(data).forEach((nombre, i) => {
 
-    setTimeout(() => {
+        const videos = data[nombre];
 
-        loader.style.display = "none";
+        const div = document.createElement('div');
+        div.className = 'player-card';
 
-        Object.keys(data).forEach((nombre, i) => {
+        div.innerHTML = `
+            <div class="canal-header">${nombre}</div>
+            <div class="video-container">
+                <div id="thumb-${i}" class="thumb-overlay"></div>
+                <video id="vjs-${i}" class="video-js" muted></video>
+            </div>
+        `;
 
-            const videos = data[nombre];
+        grid.appendChild(div);
 
-            const div = document.createElement('div');
-            div.className = 'player-card';
-
-            div.innerHTML = `
-                <div class="canal-header">${nombre}</div>
-                <div class="video-container">
-                    <div id="thumb-${i}" class="thumb-overlay"></div>
-                    <video id="vjs-${i}" class="video-js" muted></video>
-                </div>
-            `;
-
-            grid.appendChild(div);
-
-            const player = videojs(`vjs-${i}`, {
-                autoplay: true,
-                controls: true,
-                fluid: true
-            });
-
-            let index = 0;
-            const thumb = document.getElementById(`thumb-${i}`);
-
-            function loop(){
-
-                const vid = videos[index];
-
-                if(vid.thumb){
-                    thumb.style.backgroundImage = `url(${vid.thumb})`;
-                    thumb.classList.remove('hidden');
-                }
-
-                player.src({type:'video/mp4', src: vid.url});
-                player.play().catch(()=>{});
-
-                player.one('playing', ()=>{
-                    thumb.classList.add('hidden');
-                });
-
-                player.one('ended', ()=>{
-                    index = (index+1)%videos.length;
-                    loop();
-                });
-            }
-
-            loop();
-
+        const player = videojs(`vjs-${i}`, {
+            fluid: true,
+            autoplay: true,
+            controls: true
         });
 
-    }, 800);
+        let index = 0;
+        const thumb = document.getElementById(`thumb-${i}`);
+
+        function loop() {
+
+            const vid = videos[index];
+
+            if (vid.thumb) {
+                thumb.style.backgroundImage = `url(${vid.thumb})`;
+                thumb.classList.remove('hidden');
+            }
+
+            player.src({ type: 'video/mp4', src: vid.url });
+
+            player.play().catch(()=>{});
+
+            player.one('playing', () => {
+                thumb.classList.add('hidden');
+            });
+
+            player.one('ended', () => {
+                index = (index + 1) % videos.length;
+                loop();
+            });
+        }
+
+        loop();
+    });
 }
