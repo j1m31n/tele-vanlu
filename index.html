@@ -3,27 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TELE-VANLU LIVE PREMIUM</title>
+<title>Mini-Vaughn Live Premium</title>
 
 <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
+<!-- LOCK SCREEN -->
 <div id="lock-screen">
     <div class="login-box">
-        <h1>TELE-VANLU LIVE</h1>
+        <h1>📺 TELE-VANLU LIVE</h1>
         <p id="user-count">Cargando usuarios...</p>
         <button onclick="iniciarSistema()">ENTRAR</button>
     </div>
 </div>
 
+<!-- APP -->
 <div id="app" style="display:none;">
 
-    <!-- PLAYER PRINCIPAL -->
+    <!-- MAIN PLAYER -->
     <div id="hero">
-        <div id="main-player"></div>
+        <video id="main-player" class="video-js vjs-big-play-centered" controls autoplay muted></video>
     </div>
 
     <!-- GRID DE CANALES -->
