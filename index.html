@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TELE-VANLU LIVE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TELE-VANLU LIVE</title>
 
-<link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-<link rel="stylesheet" href="style.css">
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body oncontextmenu="return false;">
 
-<div id="app">
-
-    <!-- LOCK SCREEN -->
     <div id="lock-screen">
-        <div class="glass-box">
-            <h1>TELE-VANLU LIVE</h1>
-            <p id="user-count">Cargando...</p>
-            <button id="btn-entrar" onclick="iniciarSistema()">ENTRAR</button>
-        </div>
+        <h1 class="title">TELE-VANLU LIVE</h1>
+        <p id="user-count">Cargando usuarios...</p>
+        <button id="btn-entrar" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
     </div>
 
-    <!-- MAIN -->
-    <div id="main-content">
-        <div class="top-bar">
-            <h2>📺 MINI VAUGHN LIVE</h2>
-            <div id="live-count"></div>
-        </div>
+    <div id="main-content" style="display:none;">
+        <h2 class="main-title">📺 MINI-VAUGHN LIVE 24/7</h2>
 
+        <!-- NUEVO LOADER -->
         <div id="loader" class="loader"></div>
+
         <div id="grid-canales" class="grid-tv"></div>
     </div>
 
-</div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-
-<script src="app.js"></script>
+    <script src="app.js"></script>
 
 </body>
 </html>
