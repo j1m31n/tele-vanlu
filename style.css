@@ -31,33 +31,38 @@ header {
 #canales {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
     padding: 30px;
+    flex-wrap: wrap;
 }
 
 .canal {
     width: 320px;
     background: #111;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
     transition: 0.3s;
+    border: 1px solid #222;
 }
 
 .canal:hover {
     transform: scale(1.05);
+    border-color: #ffcc00;
 }
 
-/* VIDEO PREVIEW */
+/* PREVIEW VIDEO */
 .preview {
     width: 100%;
     height: 180px;
     object-fit: cover;
 }
 
+/* INFO */
 .canal-info {
     padding: 10px;
     text-align: center;
+    font-weight: bold;
 }
 
 /* MODAL */
@@ -67,7 +72,7 @@ header {
     left:0;
     width:100%;
     height:100%;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.95);
 }
 
 .hidden {
@@ -79,7 +84,7 @@ header {
     height: 100%;
 }
 
-/* PLAYER GRANDE */
+/* PLAYER */
 .player-area {
     flex: 3;
     display: flex;
@@ -90,6 +95,7 @@ header {
 #player {
     width: 90%;
     max-height: 80%;
+    background: black;
 }
 
 /* CHAT */
