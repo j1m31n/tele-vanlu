@@ -1,3 +1,4 @@
+// Usamos la ruta directa de tu repositorio para evitar errores de conexión
 const PLAYLIST_URL = 'https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json';
 const TOTAL_SLOTS = 30;
 
@@ -12,7 +13,7 @@ async function iniciarSistema() {
         
         // Ocultar acceso y mostrar la TV
         document.getElementById('acceso').style.display = 'none';
-        document.getElementById('tv-container').style.display = 'block'; // Cambiado a block para que el grid interno funcione
+        document.getElementById('tv-container').style.display = 'grid';
         
         cargarCanales(data.canales);
         actualizarEspectadores();
@@ -34,20 +35,19 @@ function cargarCanales(canales) {
     canales.forEach(canal => {
         const div = document.createElement('div');
         div.className = 'canal-card';
-        div.innerHTML = 
-            <div class="canal-header"><span>●</span> EN VIVO: ${canal.nombre}</div>
+        div.innerHTML = `
+            <div class="canal-header">● EN VIVO: ${canal.nombre}</div>
             <div class="video-wrapper">
                 <iframe src="${canal.url}" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
-        ;
+        `;
         grid.appendChild(div);
     });
 }
 
 function actualizarEspectadores() {
+    // Simulación de tráfico para tus 30 slots
     const count = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
-    const elTv = document.getElementById('user-count-tv');
-    const elAcceso = document.getElementById('user-count');
-    if(elTv) elTv.innerText = ${count}/${TOTAL_SLOTS};
-    if(elAcceso) elAcceso.innerText = ${count}/${TOTAL_SLOTS};
+    const el = document.getElementById('user-count');
+    if(el) el.innerText = `${count}/${TOTAL_SLOTS}`;
 }
