@@ -3,25 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA PRIVADO DE STREAMING</title>
+    <title>TV PRIVADA</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="acceso" class="login-container">
+    <div id="acceso">
         <h1>SISTEMA PRIVADO DE STREAMING</h1>
-        <p>Acceso limitado a 30 usuarios simultáneos.</p>
-        <div class="user-info">
-            <span id="user-count">12 / 30</span>
+        <p>Acceso limitado a 30 usuarios.</p>
+        <div style="margin: 20px; color: #00ff00;">
+            USUARIOS: <span id="user-count">12 / 30</span>
         </div>
         <button class="btn-acceso" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
-        <p class="footer-note">Optimizado para hardware de bajos recursos (Atom N2600).</p>
     </div>
 
-    <div id="tv-container" style="display: none;">
+    <div id="tv-container" style="display: none; width: 100%;">
         <header>
-            <h2>TELE-VANLU LIVE</h2>
-            <div class="slots">USUARIOS: <span id="user-count-tv">12/30</span></div>
+            <h2 style="color: #ffcc00; padding: 20px;">TELE-VANLU LIVE</h2>
         </header>
         <div id="grid-canales"></div>
     </div>
