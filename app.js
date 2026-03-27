@@ -1,53 +1,91 @@
-// Usamos la ruta directa de tu repositorio para evitar errores de conexión
 const PLAYLIST_URL = 'https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json';
-const TOTAL_SLOTS = 30;
+
+let dataGlobal = {};
 
 async function iniciarSistema() {
-    const boton = document.querySelector('.btn-acceso');
-    boton.innerText = "CARGANDO...";
-    
-    try {
-        const response = await fetch(PLAYLIST_URL);
-        if (!response.ok) throw new Error("No se pudo obtener la lista");
-        const data = await response.json();
-        
-        // Ocultar acceso y mostrar la TV
-        document.getElementById('acceso').style.display = 'none';
-        document.getElementById('tv-container').style.display = 'grid';
-        
-        cargarCanales(data.canales);
-        actualizarEspectadores();
-        
-        // Actualizar espectadores cada 30 segundos
-        setInterval(actualizarEspectadores, 30000);
-        
-    } catch (e) {
-        console.error(e);
-        alert("Error de conexión con el servidor de canales. Reintenta en unos segundos.");
-        boton.innerText = "REINTENTAR ACCESO";
-    }
+    document.getElementById("lock-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    await cargarDatos();
+    renderCanales();
+    actualizarUsuarios();
+
+    setInterval(actualizarUsuarios, 20000);
 }
 
-function cargarCanales(canales) {
-    const grid = document.getElementById('grid-canales');
-    grid.innerHTML = ''; // Limpiar antes de cargar
-    
-    canales.forEach(canal => {
-        const div = document.createElement('div');
-        div.className = 'canal-card';
-        div.innerHTML = `
-            <div class="canal-header">● EN VIVO: ${canal.nombre}</div>
-            <div class="video-wrapper">
-                <iframe src="${canal.url}" allow="autoplay; fullscreen" allowfullscreen></iframe>
-            </div>
-        `;
-        grid.appendChild(div);
+async function cargarDatos() {
+    const res = await fetch(PLAYLIST_URL);
+    dataGlobal = await res.json();
+}
+
+function decode(base64) {
+    return atob(base64);
+}
+
+/* CREAR CANALES */
+function renderCanales() {
+    const cont = document.getElementById("canales");
+    cont.innerHTML = "";
+
+    Object.keys(dataGlobal).forEach((canal, index) => {
+        const videos = dataGlobal[canal];
+
+        const div = document.createElement("div");
+        div.className = "canal";
+
+        const video = document.createElement("video");
+        video.src = decode(videos[0]);
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+        video.className = "preview";
+
+        div.appendChild(video);
+
+        const info = document.createElement("div");
+        info.className = "canal-info";
+        info.innerText = canal.toUpperCase();
+
+        div.appendChild(info);
+
+        div.onclick = () => abrirCanal(videos);
+
+        cont.appendChild(div);
     });
 }
 
-function actualizarEspectadores() {
-    // Simulación de tráfico para tus 30 slots
-    const count = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
-    const el = document.getElementById('user-count');
-    if(el) el.innerText = `${count}/${TOTAL_SLOTS}`;
+/* ABRIR CANAL */
+function abrirCanal(lista) {
+    const modal = document.getElementById("modal");
+    const player = document.getElementById("player");
+
+    let i = 0;
+
+    function playNext() {
+        player.src = decode(lista[i]);
+        player.play();
+    }
+
+    player.onended = () => {
+        i = (i + 1) % lista.length;
+        playNext();
+    };
+
+    playNext();
+
+    modal.classList.remove("hidden");
+
+    modal.onclick = () => {
+        modal.classList.add("hidden");
+        player.pause();
+    };
+}
+
+/* CONTADOR REALISTA */
+function actualizarUsuarios() {
+    const min = 12;
+    const max = 30;
+    const count = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    document.getElementById("user-count").innerText = `${count}/30`;
 }
