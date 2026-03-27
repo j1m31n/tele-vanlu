@@ -23,27 +23,16 @@
 <!-- APP -->
 <div id="app" style="display:none;">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="logo">📡</div>
-        <div class="live-dot"></div>
-    </aside>
+    <!-- HERO PLAYER -->
+    <div id="hero">
+        <div id="main-player"></div>
+    </div>
 
-    <!-- MAIN -->
-    <main class="main">
-
-        <!-- HERO PLAYER -->
-        <section id="hero">
-            <div id="main-player"></div>
-        </section>
-
-        <!-- CHANNELS -->
-        <section>
-            <h3>Canales en vivo</h3>
-            <div id="channels"></div>
-        </section>
-
-    </main>
+    <!-- GRID REAL -->
+    <div class="section">
+        <h2>Canales en vivo</h2>
+        <div id="channels-grid"></div>
+    </div>
 
 </div>
 
@@ -52,5 +41,6 @@
 <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
 <script src="app.js"></script>
+
 </body>
 </html>
