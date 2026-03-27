@@ -1,13 +1,16 @@
 {
-  "canal1": [
-    "aHR0cHM6Ly9hcmNoaXZlLm9yZy9kb3dubG9hZC9jM192MDAyL2MxX3YwMDEubXA0",
-    "aHR0cHM6Ly9hcmNoaXZlLm9yZy9kb3dubG9hZC9jM192MDAyL2MxX3YwMDIubXA0"
-  ],
-  "canal2": [
-    "aHR0cHM6Ly9hcmNoaXZlLm9yZy9kb3dubG9hZC9jM192MDAyL2MyX3YwMDEubXA0"
-  ],
-  "canal3": [
-    "aHR0cHM6Ly9hcmNoaXZlLm9yZy9kb3dubG9hZC9jM192MDAyL2MzX3YwMDEubXA0",
-    "aHR0cHM6Ly9hcmNoaXZlLm9yZy9kb3dubG9hZC9jM192MDAyL2MzX3YwMDIubXA0"
+  "canales": [
+    {
+      "nombre": "CANAL 01",
+      "url": "https://archive.org/embed/vaughn-live-archive-2015"
+    },
+    {
+      "nombre": "CANAL 02",
+      "url": "https://archive.org/embed/vaughn-live-archive-2016"
+    },
+    {
+      "nombre": "CANAL 03",
+      "url": "https://archive.org/embed/vaughn-live-archive-2017"
+    }
   ]
 }
