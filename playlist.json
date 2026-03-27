@@ -1,13 +1,28 @@
 {
   "Canal 1": [
-    { "url": "https://archive.org/download/c3_v002/c1_v001.mp4", "thumb": "" },
-    { "url": "https://archive.org/download/c3_v002/c1_v002.mp4", "thumb": "" }
+    {
+      "url": "https://archive.org/download/c3_v002/c1_v001.mp4",
+      "thumb": "https://via.placeholder.com/640x360?text=Canal+1-Video+1"
+    },
+    {
+      "url": "https://archive.org/download/c3_v002/c1_v002.mp4",
+      "thumb": "https://via.placeholder.com/640x360?text=Canal+1-Video+2"
+    }
   ],
   "Canal 2": [
-    { "url": "https://archive.org/download/c3_v002/c2_v001.mp4", "thumb": "" }
+    {
+      "url": "https://archive.org/download/c3_v002/c2_v001.mp4",
+      "thumb": "https://via.placeholder.com/640x360?text=Canal+2"
+    }
   ],
   "Canal 3": [
-    { "url": "https://archive.org/download/c3_v002/c3_v001.mp4", "thumb": "" },
-    { "url": "https://archive.org/download/c3_v002/c3_v002.mp4", "thumb": "" }
+    {
+      "url": "https://archive.org/download/c3_v002/c3_v001.mp4",
+      "thumb": "https://via.placeholder.com/640x360?text=Canal+3-Video+1"
+    },
+    {
+      "url": "https://archive.org/download/c3_v002/c3_v002.mp4",
+      "thumb": "https://via.placeholder.com/640x360?text=Canal+3-Video+2"
+    }
   ]
 }
