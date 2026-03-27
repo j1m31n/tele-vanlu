@@ -1,124 +1,71 @@
 body {
+    background-color: #0b0e11;
+    color: #e9e9e9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    background: #0a0a0a;
-    color: #fff;
-    font-family: Arial, sans-serif;
-}
-
-/* LOCK */
-#lock-screen {
-    text-align: center;
-    margin-top: 120px;
-}
-
-button {
-    padding: 12px 25px;
-    background: #ffcc00;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* HEADER */
-header {
-    text-align: center;
-    padding: 15px;
-    background: #111;
-    border-bottom: 1px solid #222;
-}
-
-/* CANALES */
-#canales {
+    padding: 20px;
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 30px;
-    flex-wrap: wrap;
-}
-
-.canal {
-    width: 320px;
-    background: #111;
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.3s;
-    border: 1px solid #222;
-    position: relative;
-}
-
-.canal:hover {
-    transform: scale(1.05);
-    border-color: #ffcc00;
-}
-
-/* EN VIVO */
-.live-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: red;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 5px;
-    font-weight: bold;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    50% { opacity: 0.5; }
-}
-
-/* VIDEO */
-.preview {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-/* INFO */
-.canal-info {
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* MODAL */
-#modal {
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.95);
-}
-
-.hidden {
-    display: none;
-}
-
-.modal-content {
-    display: flex;
-    height: 100%;
-}
-
-/* PLAYER */
-.player-area {
-    flex: 3;
-    display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
-#player {
-    width: 90%;
-    max-height: 80%;
-    background: black;
+#lock-screen {
+    text-align: center;
+    margin-top: 100px;
+    padding: 40px;
+    border: 2px solid #f0b90b;
+    border-radius: 15px;
+    background: #1e2329;
 }
 
-/* CHAT */
-.chat-area {
-    flex: 1;
-    background: #111;
+.btn-acceso {
+    background-color: #f0b90b;
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.btn-acceso:hover {
+    background-color: #d9a508;
+    transform: scale(1.05);
+}
+
+.grid-tv {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.player-card {
+    background: #1e2329;
     padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+.canal-header {
+    color: #f0b90b;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.video-js {
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Indicador EN VIVO */
+.canal-header::before {
+    content: "🔴 ";
+    color: red;
+    margin-right: 5px;
 }
