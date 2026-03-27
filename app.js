@@ -13,9 +13,19 @@ window.iniciarSistema = async function(){
     document.getElementById('lock-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
+    const grid = document.getElementById('channels-grid');
+
+    // Skeleton loading
+    for(let i=0;i<6;i++){
+        const sk = document.createElement('div');
+        sk.className = 'skeleton';
+        grid.appendChild(sk);
+    }
+
     const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
     const data = await res.json();
 
+    grid.innerHTML = '';
     initUI(data);
 };
 
@@ -31,7 +41,7 @@ function initUI(data){
 
         const videos = data[name];
 
-        // PLAYER PRINCIPAL
+        // MAIN
         if(first){
             main.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
             mainPlayer = videojs("main-video");
@@ -44,10 +54,13 @@ function initUI(data){
         card.className = 'channel-card';
 
         card.innerHTML = `
+            <div class="live-badge">EN VIVO</div>
             <div class="video-wrapper">
                 <video id="prev-${i}" class="video-js" muted></video>
             </div>
-            <div class="channel-title">${name}</div>
+            <div class="overlay">
+                <div class="channel-title">${name}</div>
+            </div>
         `;
 
         grid.appendChild(card);
@@ -60,18 +73,23 @@ function initUI(data){
 
         playLoop(preview, videos);
 
-        // CAMBIAR CANAL
+        // Cambio suave
         card.onclick = ()=>{
-            mainPlayer.dispose();
-            main.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
-            mainPlayer = videojs("main-video");
-            playLoop(mainPlayer, videos);
+            main.style.opacity = 0;
+
+            setTimeout(()=>{
+                mainPlayer.dispose();
+                main.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
+                mainPlayer = videojs("main-video");
+                playLoop(mainPlayer, videos);
+                main.style.opacity = 1;
+            }, 200);
         };
 
     });
 }
 
-// LOOP (NO SE TOCA)
+// LOOP
 function playLoop(player, videos){
 
     let i = 0;
