@@ -4,27 +4,26 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
 let mainPlayer;
 
-// LOGIN + CONTROL USUARIOS
+// LOGIN
 window.iniciarSistema = async function(){
+
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
 
     const res = await fetch('https://raw.githubusercontent.com/j1m31n/tele-vanlu/main/playlist.json');
     const data = await res.json();
 
-    document.getElementById('lock-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-
     initUI(data);
 };
 
-// INIT UI
+// INIT
 function initUI(data){
 
-    const mainContainer = document.getElementById('main-player');
-    const channels = document.getElementById('channels');
+    const main = document.getElementById('main-player');
+    const grid = document.getElementById('channels-grid');
 
     let first = true;
 
@@ -32,9 +31,9 @@ function initUI(data){
 
         const videos = data[name];
 
-        // MAIN PLAYER
+        // PLAYER PRINCIPAL
         if(first){
-            mainContainer.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
+            main.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
             mainPlayer = videojs("main-video");
             playLoop(mainPlayer, videos);
             first = false;
@@ -45,13 +44,15 @@ function initUI(data){
         card.className = 'channel-card';
 
         card.innerHTML = `
-            <video id="preview-${i}" class="video-js" muted></video>
+            <div class="video-wrapper">
+                <video id="prev-${i}" class="video-js" muted></video>
+            </div>
             <div class="channel-title">${name}</div>
         `;
 
-        channels.appendChild(card);
+        grid.appendChild(card);
 
-        const preview = videojs(`preview-${i}`, {
+        const preview = videojs(`prev-${i}`, {
             autoplay: true,
             muted: true,
             controls: false
@@ -59,9 +60,10 @@ function initUI(data){
 
         playLoop(preview, videos);
 
+        // CAMBIAR CANAL
         card.onclick = ()=>{
             mainPlayer.dispose();
-            mainContainer.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
+            main.innerHTML = `<video id="main-video" class="video-js" controls autoplay></video>`;
             mainPlayer = videojs("main-video");
             playLoop(mainPlayer, videos);
         };
@@ -69,7 +71,7 @@ function initUI(data){
     });
 }
 
-// LOOP
+// LOOP (NO SE TOCA)
 function playLoop(player, videos){
 
     let i = 0;
