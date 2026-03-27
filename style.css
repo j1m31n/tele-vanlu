@@ -30,37 +30,36 @@ body {
     transition: 0.3s;
 }
 
-#btn-entrar:hover {
-    background-color: #d9a508;
-    transform: scale(1.05);
-}
-
+/* --- ESTA ES LA PARTE QUE QUERÍAS RECUPERAR --- */
 .grid-tv {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
     max-width: 1200px;
+    margin-top: 20px;
 }
 
 .player-card {
     background: #1e2329;
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     text-align: center;
+    border: 1px solid #333; /* Borde sutil original */
 }
 
 .canal-header {
     color: #f0b90b;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
-.thumb-img {
-    width: 100%;
-    max-height: 180px;
-    object-fit: cover;
-    margin-bottom: 5px;
+/* Ajuste para que el reproductor moderno quepa en tu diseño antiguo */
+.video-js {
+    width: 100% !important;
     border-radius: 5px;
+    overflow: hidden;
 }
