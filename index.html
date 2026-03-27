@@ -3,33 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini-Vaughn Live | Sistema 24/7</title>
+    <title>TELE-VANLU LIVE</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;">
 
     <div id="lock-screen">
-        <h1 style="color: #f0b90b;">SISTEMA PRIVADO DE STREAMING</h1>
-        <p>Acceso limitado a 30 usuarios simultáneos.</p>
-        <div style="margin: 20px;">
-            <span id="user-count" style="font-size: 1.2rem; color: #00ff00;">Cargando usuarios...</span>
-        </div>
+        <h1 style="color: #f0b90b; font-size: 1.5rem;">SISTEMA PRIVADO</h1>
+        <p id="user-count" style="color: #888;">Cargando usuarios...</p>
         <button id="btn-entrar" onclick="iniciarSistema()">ENTRAR AL SISTEMA</button>
-        <div style="margin-top: 30px; font-size: 0.8em; color: #555;">
-            Optimizado para hardware de bajos recursos (Atom N2600).
-        </div>
     </div>
 
-    <div id="main-content" style="display:none;">
+    <div id="main-content" style="display:none; width: 100%;">
         <h2 style="text-align: center; color: #f0b90b;">📺 MINI-VAUGHN LIVE 24/7</h2>
-        <div class="grid-tv" id="grid-canales"></div>
+        <div id="grid-canales" class="grid-tv"></div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    
     <script src="app.js"></script>
 </body>
 </html>
