@@ -1,14 +1,14 @@
 {
   "canal1": [
-    {"url":"video1.mp4","thumb":"thumb1.jpg"},
-    {"url":"video2.mp4","thumb":"thumb2.jpg"}
+    {"url":"c1_v1.mp4","thumb":"c1_t1.jpg"},
+    {"url":"c1_v2.mp4","thumb":"c1_t2.jpg"}
   ],
   "canal2": [
-    {"url":"video3.mp4","thumb":"thumb3.jpg"},
-    {"url":"video4.mp4","thumb":"thumb4.jpg"}
+    {"url":"c2_v1.mp4","thumb":"c2_t1.jpg"},
+    {"url":"c2_v2.mp4","thumb":"c2_t2.jpg"}
   ],
   "canal3": [
-    {"url":"video5.mp4","thumb":"thumb5.jpg"},
-    {"url":"video6.mp4","thumb":"thumb6.jpg"}
+    {"url":"c3_v1.mp4","thumb":"c3_t1.jpg"},
+    {"url":"c3_v2.mp4","thumb":"c3_t2.jpg"}
   ]
 }
