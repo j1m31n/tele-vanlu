@@ -1,107 +1,21 @@
-/* GENERAL */
-body {
-    margin: 0;
-    background: #0a0a0a;
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* LOCK SCREEN */
-#lock-screen {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.login-box {
-    background: rgba(255,255,255,0.05);
-    padding: 50px;
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    text-align: center;
-}
-.login-box button {
-    background-color: #f0b90b;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.login-box button:hover {
-    transform: scale(1.05);
-}
-
-/* HERO */
-#hero {
-    max-width: 1200px;
-    margin: 20px auto;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-}
-#main-player {
-    width: 100% !important;
-    aspect-ratio: 16/9;
-}
-
-/* GRID DE CANALES */
-#channels-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-/* CHANNEL CARD */
-.channel-card {
-    position: relative;
-    border-radius: 15px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.4s;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.7);
-}
-.channel-card:hover {
-    transform: scale(1.05) translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
-}
-
-/* VIDEO MINIATURA */
-.channel-card video {
-    width: 100% !important;
-    aspect-ratio: 16/9;
-    border-radius: 10px;
-}
-
-/* OVERLAY */
-.overlay {
-    position: absolute;
-    bottom: 0;
+/* Mejora de las miniaturas */
+.channel-card img {
     width: 100%;
-    padding: 10px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-}
-.channel-title {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #f0b90b;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
 }
 
-/* LIVE BADGE */
-.live-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: red;
-    padding: 3px 8px;
-    font-size: 12px;
-    border-radius: 6px;
+/* Efecto de resplandor al canal activo */
+.channel-card:active {
+    border: 2px solid #f0b90b;
 }
 
-/* ANIMACIÓN FADE */
-.fade {
-    transition: opacity 0.4s ease-in-out;
+/* Tipografía y espaciado */
+.section h2 {
+    padding-left: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #aaa;
+    font-size: 1.1rem;
 }
