@@ -1,6 +1,6 @@
-/* DISEÑO OSCURO Y LIGERO PARA NETBOOK */
+/* DISEÑO OSCURO Y LIGERO */
 body {
-    background-color: #0b0e11; 
+    background-color: #0b0e11;
     color: #e9e9e9;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -37,7 +37,7 @@ body {
     transform: scale(1.05);
 }
 
-/* Grilla de los 3 Canales */
+/* Grilla de canales */
 .grid-tv {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -46,18 +46,27 @@ body {
     max-width: 1200px;
 }
 
-.player-card {
+.canal-card {
     background: #1e2329;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transition: transform 0.3s;
 }
 
-.player-card:hover {
-    transform: scale(1.02);
+.canal-header {
+    font-weight: bold;
+    color: #f00;
+    margin-bottom: 5px;
 }
 
+/* Video.js */
+.video-js {
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Etiquetas */
 .label {
     text-align: center;
     margin-top: 10px;
@@ -65,13 +74,6 @@ body {
     color: #f0b90b;
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-
-/* Ajustes para el reproductor Video.js */
-.video-js {
-    width: 100%;
-    border-radius: 5px;
-    overflow: hidden;
 }
 
 /* Chat */
