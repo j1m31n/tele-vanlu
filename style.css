@@ -1,3 +1,4 @@
+/* GENERAL */
 body {
     margin: 0;
     background: #0a0a0a;
@@ -19,6 +20,21 @@ body {
     border-radius: 20px;
     backdrop-filter: blur(20px);
     text-align: center;
+}
+
+.login-box button {
+    background-color: #f0b90b;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-box button:hover {
+    transform: scale(1.05);
 }
 
 /* HERO */
@@ -66,6 +82,7 @@ body {
 .video-js {
     width: 100% !important;
     height: 100% !important;
+    border-radius: 10px;
 }
 
 /* OVERLAY GRADIENT */
