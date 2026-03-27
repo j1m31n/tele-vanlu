@@ -1,6 +1,3 @@
-// USA TU GITHUB PAGES (NO RAW)
-const PLAYLIST_URL = 'https://j1m31n.github.io/tele-vanlu/playlist.json';
-
 let dataGlobal = {};
 
 /* INICIO */
@@ -14,22 +11,31 @@ async function iniciarSistema() {
         actualizarUsuarios();
         setInterval(actualizarUsuarios, 20000);
     } catch (e) {
-        console.error(e);
-        alert("Error cargando canales");
+        console.error("ERROR:", e);
+        mostrarError("No se pudieron cargar los canales");
     }
 }
 
-/* CARGAR JSON */
+/* CARGAR JSON LOCAL */
 async function cargarDatos() {
-    const res = await fetch(PLAYLIST_URL);
+    const res = await fetch('./playlist.json');
 
-    if (!res.ok) throw new Error("Error JSON");
+    if (!res.ok) {
+        throw new Error("No se encontró playlist.json");
+    }
 
     dataGlobal = await res.json();
-    console.log("DATA:", dataGlobal);
+
+    console.log("JSON OK:", dataGlobal);
 }
 
-/* DECODIFICAR */
+/* ERROR EN PANTALLA */
+function mostrarError(msg) {
+    const cont = document.getElementById("canales");
+    cont.innerHTML = `<p style="color:red; text-align:center;">${msg}</p>`;
+}
+
+/* BASE64 */
 function decode(base64) {
     try {
         return atob(base64);
@@ -38,10 +44,15 @@ function decode(base64) {
     }
 }
 
-/* CREAR CANALES */
+/* RENDER */
 function renderCanales() {
     const cont = document.getElementById("canales");
     cont.innerHTML = "";
+
+    if (!dataGlobal || Object.keys(dataGlobal).length === 0) {
+        mostrarError("No hay canales disponibles");
+        return;
+    }
 
     Object.entries(dataGlobal).forEach(([nombre, lista]) => {
 
@@ -70,7 +81,7 @@ function renderCanales() {
     });
 }
 
-/* ABRIR CANAL */
+/* PLAYER */
 function abrirCanal(lista) {
     const modal = document.getElementById("modal");
     const player = document.getElementById("player");
