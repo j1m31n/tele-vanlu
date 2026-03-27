@@ -44,6 +44,7 @@ header {
     cursor: pointer;
     transition: 0.3s;
     border: 1px solid #222;
+    position: relative;
 }
 
 .canal:hover {
@@ -51,7 +52,24 @@ header {
     border-color: #ffcc00;
 }
 
-/* PREVIEW VIDEO */
+/* EN VIVO */
+.live-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: red;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.5; }
+}
+
+/* VIDEO */
 .preview {
     width: 100%;
     height: 180px;
