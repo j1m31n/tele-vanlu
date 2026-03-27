@@ -10,13 +10,15 @@
 
 <body>
 
+<!-- PANTALLA DE ACCESO -->
 <div id="lock-screen">
     <h1>🔒 ACCESO PRIVADO</h1>
     <p>Usuarios activos:</p>
-    <p id="user-count">...</p>
+    <p id="user-count">Cargando...</p>
     <button onclick="iniciarSistema()">ENTRAR</button>
 </div>
 
+<!-- APP -->
 <div id="app" style="display:none;">
 
     <header>
@@ -26,12 +28,12 @@
     <!-- CANALES -->
     <div id="canales"></div>
 
-    <!-- MODAL PLAYER -->
+    <!-- MODAL -->
     <div id="modal" class="hidden">
         <div class="modal-content">
 
             <div class="player-area">
-                <video id="player" autoplay controls></video>
+                <video id="player" controls autoplay></video>
             </div>
 
             <div class="chat-area">
@@ -44,6 +46,8 @@
 
 </div>
 
-<script src="app.js"></script>
+<!-- IMPORTANTE: versión para evitar cache -->
+<script src="app.js?v=1"></script>
+
 </body>
 </html>
