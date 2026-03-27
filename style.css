@@ -15,8 +15,9 @@ body {
 
 .login-box {
     background: rgba(255,255,255,0.05);
-    padding: 40px;
-    border-radius: 15px;
+    padding: 50px;
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
     text-align: center;
 }
 
@@ -26,45 +27,40 @@ body {
 }
 
 #main-player {
-    width: 100%;
     max-width: 1200px;
     margin: auto;
     aspect-ratio: 16/9;
-    background: #111;
-    border-radius: 15px;
+    border-radius: 20px;
     overflow: hidden;
+    background: #111;
 }
 
-/* SECTION */
-.section {
-    padding: 20px;
-}
-
-/* GRID PERFECTO */
+/* GRID */
 #channels-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
+    gap: 25px;
+    padding: 20px;
 }
 
 /* CARD */
 .channel-card {
-    background: #111;
-    border-radius: 12px;
+    position: relative;
+    border-radius: 15px;
     overflow: hidden;
+    background: #111;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.4s;
 }
 
 .channel-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.07) translateY(-5px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.9);
 }
 
-/* VIDEO CON PROPORCIÓN */
+/* VIDEO */
 .video-wrapper {
-    width: 100%;
     aspect-ratio: 16/9;
-    overflow: hidden;
 }
 
 .video-js {
@@ -72,9 +68,40 @@ body {
     height: 100% !important;
 }
 
+/* OVERLAY GRADIENT */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+}
+
+/* LIVE BADGE */
+.live-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: red;
+    padding: 3px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
 /* TITLE */
 .channel-title {
-    padding: 10px;
     font-size: 0.9rem;
     color: #f0b90b;
+}
+
+/* SKELETON */
+.skeleton {
+    height: 150px;
+    background: linear-gradient(90deg, #111, #222, #111);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {background-position: -200px;}
+    100% {background-position: 200px;}
 }
